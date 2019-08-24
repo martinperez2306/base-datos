@@ -9,3 +9,9 @@ altura INTEGER,
 entre1 VARCHAR(50),
 entre2 VARCHAR(50)
 );
+
+DROP TABLE IF EXISTS colectivos_por_parada;
+CREATE TABLE colectivos_por_parada (
+cod_parada INTEGER NOT NULL,
+num_colectivo INTEGER NOT NULL
+);
