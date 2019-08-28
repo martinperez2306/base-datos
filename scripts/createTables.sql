@@ -10,8 +10,14 @@ entre1 VARCHAR(50),
 entre2 VARCHAR(50)
 );
 
+ALTER TABLE paradas ADD CONSTRAINT PK_paradas PRIMARY KEY (cod_parada);
+
 DROP TABLE IF EXISTS colectivos_por_parada;
 CREATE TABLE colectivos_por_parada (
 cod_parada INTEGER NOT NULL,
 num_colectivo INTEGER NOT NULL
 );
+
+ALTER TABLE colectivos_por_parada ADD CONSTRAINT PK_colectivos_por_parada PRIMARY KEY (cod_parada, num_colectivo);
+
+ALTER TABLE colectivos_por_parada ADD CONSTRAINT FK_colectivos_por_parada_cod_parada FOREIGN KEY (cod_parada) REFERENCES paradas (cod_parada);
