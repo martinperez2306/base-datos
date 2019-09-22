@@ -1,0 +1,121 @@
+1) 
+SELECT * FROM PARADAS LIMIT 5 OFFSET 0;
+SELECT * FROM COLECTIVOS_POR_PARADA LIMIT 5 OFFSET 0;
+
+2) 
+SELECT CALLE FROM PARADAS;
+
+3) 
+SELECT DISTINCT CALLE FROM PARADAS;
+
+4) 
+SELECT COD_PARADA, CALLE, ALTURA FROM PARADAS;
+
+5) 
+SELECT COD_PARADA, CALLE || ' ' || ALTURA  AS DIRECCION FROM PARADAS;
+
+6)
+SELECT CALLE FROM PARADAS ORDER BY CALLE
+SELECT CALLE FROM PARADAS ORDER BY CALLE DESC
+7)
+SELECT DISTINCT CALLE FROM PARADAS ORDER BY CALLE
+SELECT DISTINCT CALLE FROM PARADAS ORDER BY CALLE DESC
+
+8)
+COPY (SELECT DISTINCT CALLE FROM PARADAS ORDER BY CALLE)
+TO '/home/martin/FIUBA/BaseDeDatos/Repositorio/datos/tallerivejer8.csv'
+DELIMITER ';'
+CSV HEADER
+--para indicar que la primera lı́nea es el encabezado
+ENCODING 'LATIN1';
+
+9) NO SE HACE
+
+10)
+SELECT * FROM PARADAS WHERE CALLE ILIKE '%RIVADAVIA%' ORDER BY ALTURA; 
+
+11)
+SELECT * FROM PARADAS WHERE CALLE ILIKE '%RIVADAVIA%' AND ALTURA < 1600 ORDER BY ALTURA;
+
+12)
+SELECT * FROM PARADAS WHERE CALLE ILIKE '%PASEO COLON%' AND ALTURA BETWEEN 800 AND 900 ORDER BY ALTURA;
+
+13)
+SELECT * 
+FROM PARADAS 
+WHERE CALLE ILIKE '%PASEO COLON%' 
+AND ((ENTRE1 ILIKE 'MEXICO'AND ENTRE2 ILIKE 'CHILE' )OR (ENTRE1 ILIKE 'CHILE' AND ENTRE2 ILIKE 'MEXICO'))
+ORDER BY ALTURA;
+
+14)
+SELECT * FROM PARADAS ORDER BY LATITUD DESC LIMIT 1 OFFSET 0;
+
+15) 
+SELECT * FROM PARADAS ORDER BY LATITUD LIMIT 1 OFFSET 0;
+
+16)
+SELECT COUNT(*) FROM PARADAS;
+
+17)
+SELECT COUNT(*) 
+FROM 
+(SELECT DISTINCT CALLE FROM PARADAS WHERE CALLE IS NOT NULL) AS CALLES;
+
+18)
+SELECT COUNT(*)
+FROM
+(SELECT * FROM PARADAS WHERE CALLE ILIKE '%RIVADAVIA%') AS PARADAS_RIVADAVIA; 
+
+19)
+select * from (
+select cp1.cod_parada cod_parada_1, cp2.cod_parada cod_parada_2, cp1.num_colectivo num_colectivo_1, cp2.num_colectivo num_colectivo_2
+from 
+colectivos_por_parada cp1 inner join colectivos_por_parada cp2 
+on cp1.cod_parada = cp2.cod_parada
+) as join_paradas 
+where (num_colectivo_1 = 21 and num_colectivo_2 = 28)
+
+Otra forma
+select cod_parada
+from colectivos_por_parada 
+where num_colectivo = 21
+INTERSECT 
+select cod_parada
+from colectivos_por_parada
+where num_colectivo = 28
+
+20)
+select distinct paradas.cod_parada
+from colectivos_por_parada 
+inner join paradas on colectivos_por_parada.cod_parada = paradas.cod_parada
+where num_colectivo = 21 or num_colectivo = 28
+
+Otra forma
+select cod_parada
+from colectivos_por_parada 
+where num_colectivo = 21
+UNION 
+select cod_parada
+from colectivos_por_parada
+where num_colectivo = 28
+
+21)
+select count(*) as cantidad_paradas, num_colectivo 
+from colectivos_por_parada
+group by num_colectivo order by cantidad_paradas desc;
+
+22)
+select count(*) as cantidad_paradas, num_colectivo 
+from colectivos_por_parada
+group by num_colectivo
+having count(*) >= 100
+order by cantidad_paradas desc;
+
+23)
+SELECT COUNT(*), CALLE
+FROM PARADAS
+WHERE CALLE ILIKE '%AV.%'
+GROUP BY CALLE
+ORDER BY COUNT(*) DESC;
+
+24)

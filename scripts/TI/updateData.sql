@@ -1,0 +1,1 @@
+UPDATE paradas SET cod_parada = 1007800 WHERE cod_parada = 1004561;
